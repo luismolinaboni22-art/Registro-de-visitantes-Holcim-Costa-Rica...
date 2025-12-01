@@ -58,16 +58,20 @@
             <tbody>
                 {% for visitor in visitors %}
                 {% set now = current_time %}
-                {% if visitor.check_in.time() <= now and (visitor.check_out is none or now < visitor.check_out.time()) %}
+                {% set check_in_str = visitor.check_in.strftime('%H:%M:%S') %}
+                {% set check_out_str = visitor.check_out.strftime('%H:%M:%S') if visitor.check_out else None %}
+
+                {% if check_in_str <= now and (check_out_str is none or now < check_out_str) %}
                     {% set status_class = "status-active" %}
                     {% set status_text = "Activo" %}
-                {% elif visitor.check_out and now >= visitor.check_out.time() %}
+                {% elif check_out_str and now >= check_out_str %}
                     {% set status_class = "status-expired" %}
                     {% set status_text = "Expirado" %}
                 {% else %}
                     {% set status_class = "status-pending" %}
                     {% set status_text = "Pendiente" %}
                 {% endif %}
+
                 <tr class="{{ status_class }}">
                     <td>{{ visitor.name }}</td>
                     <td>{{ visitor.company or '-' }}</td>
