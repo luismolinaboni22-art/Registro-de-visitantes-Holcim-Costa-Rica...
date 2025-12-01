@@ -22,14 +22,14 @@ class Visitor(db.Model):
     company = db.Column(db.String(150))
     reason = db.Column(db.String(300))
     check_in = db.Column(db.DateTime, default=datetime.now)
+    check_out = db.Column(db.DateTime, nullable=True)  # Nueva columna para salida
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
 
-
-# Crear usuario admin automáticamente
+# Crear tablas y usuario admin automáticamente
 with app.app_context():
     db.create_all()
     if not User.query.filter_by(username="admin").first():
@@ -41,7 +41,6 @@ with app.app_context():
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
 
 # ===================== RUTAS LOGIN =====================
 
@@ -61,20 +60,17 @@ def login():
 
     return render_template('login.html')
 
-
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
 # ===================== RUTAS PRINCIPALES =====================
 
 @app.route('/')
 def index():
     return redirect('/register')
-
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -90,12 +86,27 @@ def register():
 
     return render_template('register.html')
 
-
 @app.route('/list')
 @login_required
 def list_visitors():
     visitors = Visitor.query.order_by(Visitor.id.desc()).all()
     return render_template('list.html', visitors=visitors)
+
+# ===================== RUTA DAR SALIDA =====================
+
+@app.route('/checkout/<int:visitor_id>')
+@login_required
+def checkout(visitor_id):
+    visitor = Visitor.query.get_or_404(visitor_id)
+    if visitor.check_out is None:
+        visitor.check_out = datetime.now()
+        db.session.commit()
+    return redirect('/list')
+
+# ===================== RUN =====================
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 if __name__ == '__main__':
