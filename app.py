@@ -18,8 +18,10 @@ login_manager.init_app(app)
 
 class Visitor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    ci = db.Column(db.String(20), nullable=False)  # Cédula de identidad
     name = db.Column(db.String(150), nullable=False)
     company = db.Column(db.String(150))
+    person_to_visit = db.Column(db.String(150), nullable=False)  # Persona a visitar
     reason = db.Column(db.String(300))
     check_in = db.Column(db.DateTime, default=datetime.now)
     check_out = db.Column(db.DateTime, nullable=True)  # Salida
@@ -75,11 +77,13 @@ def index():
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
+        ci = request.form['ci']
         name = request.form['name']
         company = request.form['company']
+        person_to_visit = request.form['person_to_visit']
         reason = request.form['reason']
 
-        new_visitor = Visitor(name=name, company=company, reason=reason)
+        new_visitor = Visitor(ci=ci, name=name, company=company, person_to_visit=person_to_visit, reason=reason)
         db.session.add(new_visitor)
         db.session.commit()
         return redirect('/list')
@@ -93,8 +97,6 @@ def list_visitors():
     inside_count = Visitor.query.filter_by(check_out=None).count()
     return render_template('list.html', visitors=visitors, inside_count=inside_count)
 
-# ===================== RUTA DAR SALIDA =====================
-
 @app.route('/checkout/<int:visitor_id>')
 @login_required
 def checkout(visitor_id):
@@ -104,15 +106,12 @@ def checkout(visitor_id):
         db.session.commit()
     return redirect('/list')
 
-# ===================== RUTA HISTÓRICO =====================
-
 @app.route('/history')
 @login_required
 def history():
     visitors = Visitor.query.order_by(Visitor.check_in.desc()).all()
     return render_template('history.html', visitors=visitors)
 
-# ===================== RUN =====================
-
 if __name__ == '__main__':
     app.run(debug=True)
+
