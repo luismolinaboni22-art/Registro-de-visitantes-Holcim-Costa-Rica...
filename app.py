@@ -43,9 +43,18 @@ def admin_required(f):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Crear tablas y admin inicial si no existen
+def init_db():
+    db.create_all()
+    if not User.query.filter_by(email="jorgemolinabonilla@gmail.com").first():
+        admin = User(email="jorgemolinabonilla@gmail.com", password="123")
+        db.session.add(admin)
+        db.session.commit()
+
 # Rutas
-@app.route('/')
+@app.get("/")
 def index():
+    init_db()
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET','POST'])
@@ -159,16 +168,8 @@ def create_user():
         return redirect(url_for('create_user'))
     return render_template('create_user.html')
 
-# Crear base de datos y admin inicial
-@app.before_first_request
-def create_tables():
-    db.create_all()
-    if not User.query.filter_by(email="jorgemolinabonilla@gmail.com").first():
-        admin = User(email="jorgemolinabonilla@gmail.com", password="123")
-        db.session.add(admin)
-        db.session.commit()
-
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
