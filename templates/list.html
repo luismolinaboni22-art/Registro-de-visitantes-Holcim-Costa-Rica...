@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2>Visitantes Registrados</h2>
 
 <table>
@@ -8,8 +9,9 @@
         <th>Nombre</th>
         <th>Empresa</th>
         <th>Motivo</th>
-        <th>Fecha / Hora</th>
+        <th>Fecha/Hora</th>
     </tr>
+
     {% for v in visitors %}
     <tr>
         <td>{{ v.id }}</td>
@@ -20,4 +22,5 @@
     </tr>
     {% endfor %}
 </table>
+
 {% endblock %}
