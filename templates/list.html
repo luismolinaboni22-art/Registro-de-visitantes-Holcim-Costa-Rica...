@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-
 <h2>Visitantes Registrados</h2>
 
-<div style="float:right; padding: 20px; background-color:#4CAF50; color:white; border-radius:8px;">
-    <h3>Actualmente dentro</h3>
-    <p>{{ inside_count }}</p>
+<div style="margin-bottom: 20px;">
+    <strong>Actualmente dentro:</strong> {{ inside_count }}
 </div>
 
-<table style="width:100%; border-collapse: collapse; margin-top: 50px;">
+<table style="width:100%;">
     <thead>
         <tr>
             <th>ID</th>
@@ -19,11 +17,11 @@
             <th>Motivo</th>
             <th>Entrada</th>
             <th>Salida</th>
-            <th>Dar salida</th>
+            <th>Acción</th>
         </tr>
     </thead>
     <tbody>
-    {% for v in visitors %}
+        {% for v in visitors %}
         <tr>
             <td>{{ v.id }}</td>
             <td>{{ v.ci }}</td>
@@ -31,12 +29,17 @@
             <td>{{ v.company or '---' }}</td>
             <td>{{ v.person_to_visit }}</td>
             <td>{{ v.reason or '---' }}</td>
-            <td>{% if v.check_in %}{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
+            <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
             <td>{% if v.check_out %}{{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
-            <td>{% if not v.check_out %}<a href="/checkout/{{ v.id }}">Dar salida</a>{% else %}---{% endif %}</td>
+            <td>
+                {% if not v.check_out %}
+                <a href="{{ url_for('checkout', visitor_id=v.id) }}">Dar salida</a>
+                {% else %}
+                ---
+                {% endif %}
+            </td>
         </tr>
-    {% endfor %}
+        {% endfor %}
     </tbody>
 </table>
-
 {% endblock %}
