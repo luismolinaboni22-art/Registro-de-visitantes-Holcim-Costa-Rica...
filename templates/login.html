@@ -1,14 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-
 <h2>Login</h2>
-
 <form method="POST">
-    <label>Usuario:</label>
-    <input type="text" name="username" required>
+    <label>Usuario (Email):</label>
+    <input type="email" name="username" class="form-control" required>
     <label>Contraseña:</label>
-    <input type="password" name="password" required>
-    <button type="submit">Entrar</button>
+    <input type="password" name="password" class="form-control" required>
+    <button type="submit" class="btn btn-primary mt-2">Ingresar</button>
 </form>
-
 {% endblock %}
