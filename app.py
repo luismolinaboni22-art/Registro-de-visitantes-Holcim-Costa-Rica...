@@ -112,6 +112,18 @@ def history():
     visitors = Visitor.query.order_by(Visitor.check_in.desc()).all()
     return render_template('history.html', visitors=visitors)
 
+@app.route('/reports')
+@login_required
+def reports():
+    total_visitors = Visitor.query.count()
+    inside_count = Visitor.query.filter_by(check_out=None).count()
+    exited_count = Visitor.query.filter(Visitor.check_out.isnot(None)).count()
+    return render_template('reports.html',
+                           total_visitors=total_visitors,
+                           inside_count=inside_count,
+                           exited_count=exited_count)
+
+# ===================== RUN =====================
+
 if __name__ == '__main__':
     app.run(debug=True)
-
