@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Holcim CR</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Holcim CR</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body { font-family: 'Roboto', sans-serif; margin:0; background:#f4f4f4; }
+.navbar { display:flex; justify-content:space-between; align-items:center; background:#0097A9; padding:1rem; color:white; }
+.navbar a { color:white; margin-left:1rem; text-decoration:none; }
+.container { padding:2rem; }
+.card { background:white; padding:1rem; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+.card-header { font-weight:bold; margin-bottom:0.5rem; }
+.table-striped { width:100%; border-collapse:collapse; }
+.table-striped th, .table-striped td { padding:0.5rem; text-align:left; border-bottom:1px solid #ddd; }
+.status-active { background:#C7E6E8; }
+.status-pending { background:#C7E7A4; }
+.status-expired { background:#1A1A1A; color:white; }
+.button { padding:0.25rem 0.5rem; background:#79C000; color:white; border-radius:4px; text-decoration:none; }
+.button:hover { background:#5a9000; }
+.footer { text-align:center; padding:1rem; margin-top:2rem; background:#003B49; color:white; }
+</style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
     <div class="logo"><h2><i class="fas fa-building"></i> Holcim CR</h2></div>
     <div class="nav-links">
@@ -25,21 +40,21 @@
 
     <!-- Tarjetas dinámicas -->
     <div style="display:flex; flex-wrap:wrap; gap:25px; margin-bottom:30px;">
-        <div class="card {% if visitors_today > 0 %}active{% else %}pending{% endif %}" style="flex:1;">
+        <div class="card" style="flex:1;">
             <div class="card-header"><i class="fas fa-users"></i> Visitantes Hoy</div>
             <div class="card-body">{{ visitors_today }}</div>
         </div>
-        <div class="card {% if visitors_week > 0 %}active{% else %}pending{% endif %}" style="flex:1;">
+        <div class="card" style="flex:1;">
             <div class="card-header"><i class="fas fa-calendar-week"></i> Esta Semana</div>
             <div class="card-body">{{ visitors_week }}</div>
         </div>
-        <div class="card {% if visitors_total > 0 %}active{% else %}pending{% endif %}" style="flex:1;">
+        <div class="card" style="flex:1;">
             <div class="card-header"><i class="fas fa-id-card"></i> Total Registrados</div>
             <div class="card-body">{{ visitors_total }}</div>
         </div>
     </div>
 
-    <!-- Tabla de visitantes -->
+    <!-- Tabla de visitantes recientes -->
     <div class="card">
         <div class="card-header"><i class="fas fa-list"></i> Visitantes Recientes</div>
         <table class="table-striped">
@@ -101,4 +116,3 @@
 
 </body>
 </html>
-
