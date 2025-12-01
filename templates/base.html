@@ -1,24 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Registro de Visitantes</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <title>Control de Visitantes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
+        table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        input, button { padding: 5px; margin: 5px; }
+        button { cursor: pointer; }
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>Registro de Visitantes</h1>
-    <nav>
-        <a href="/register">Registrar Visitante</a>
-        <a href="/list">Lista</a>
-        <a href="/login">Login</a>
-        <a href="/logout">Salir</a>
-    </nav>
-</header>
+{% if current_user.is_authenticated %}
+<nav>
+    <a href="/register">Registrar Visitante</a>
+    <a href="/list">Lista</a>
+    <a href="/history">Histórico</a>
+    <a href="/reports">Reportes</a>
+    <a href="/logout">Salir</a>
+</nav>
+<hr>
+{% endif %}
 
-<main>
-    {% block content %}{% endblock %}
-</main>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
 
 </body>
 </html>
