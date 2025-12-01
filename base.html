@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Control de Visitantes</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        nav a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
-        table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
-        th { background-color: #f2f2f2; }
-        input, button { padding: 5px; margin: 5px; }
-        button { cursor: pointer; }
-    </style>
+<meta charset="UTF-8">
+<title>Control de Visitantes</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+nav a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
+table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+th { background-color: #f2f2f2; }
+input, button { padding: 5px; margin: 5px; }
+button { cursor: pointer; }
+</style>
 </head>
 <body>
 
 {% if current_user.is_authenticated and request.path != '/login' %}
 <nav>
     <a href="/register">Registrar Visitante</a>
-
     {% if request.path != '/register' %}
         <a href="/list">Lista</a>
         <a href="/history">Histórico</a>
     {% endif %}
-
     <a href="/reports">Reportes</a>
     <a href="/logout">Salir</a>
 </nav>
@@ -40,7 +38,6 @@
 {% endwith %}
 
 {% block content %}{% endblock %}
-
 </body>
 </html>
 
