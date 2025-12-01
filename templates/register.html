@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Nuevo Visitante</h2>
+
+<form method="POST">
+    <label>Nombre completo</label>
+    <input type="text" name="name" required>
+
+    <label>Empresa</label>
+    <input type="text" name="company">
+
+    <label>Motivo de visita</label>
+    <input type="text" name="reason">
+
+    <button type="submit">Registrar</button>
+</form>
+{% endblock %}
