@@ -4,16 +4,28 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from datetime import datetime
 from functools import wraps
 
+# ==========================
+# CREAR LA APP Y CONFIGURACIONES
+# ==========================
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///visitors.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# ⚡ Fuerza recarga de templates y evita cache de CSS/JS
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+# ==========================
+# BASE DE DATOS Y LOGIN
+# ==========================
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-# Modelos
+# ==========================
+# MODELOS
+# ==========================
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
@@ -29,7 +41,9 @@ class Visitor(db.Model):
     check_in = db.Column(db.DateTime, default=datetime.now)
     check_out = db.Column(db.DateTime)
 
-# Decorador para admin
+# ==========================
+# DECORADOR ADMIN
+# ==========================
 def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -43,7 +57,9 @@ def admin_required(f):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Crear tablas y admin inicial si no existen
+# ==========================
+# INICIALIZAR BASE DE DATOS
+# ==========================
 def init_db():
     db.create_all()
     if not User.query.filter_by(email="jorgemolinabonilla@gmail.com").first():
@@ -51,7 +67,9 @@ def init_db():
         db.session.add(admin)
         db.session.commit()
 
-# Rutas
+# ==========================
+# RUTAS
+# ==========================
 @app.get("/")
 def index():
     init_db()
@@ -168,8 +186,9 @@ def create_user():
         return redirect(url_for('create_user'))
     return render_template('create_user.html')
 
+# ==========================
+# EJECUTAR APP
+# ==========================
 if __name__ == '__main__':
     app.run(debug=True)
-
-
 
