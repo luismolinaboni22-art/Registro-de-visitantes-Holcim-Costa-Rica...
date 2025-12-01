@@ -1,19 +1,19 @@
-{% extends "base.html" %}
+{%{% extends "base.html" %}
 {% block content %}
 
 <h2>Visitantes Registrados</h2>
 
-<!-- Recuadro de visitantes dentro -->
+<!-- Recuadro visitantes dentro -->
 <div style="float:right; padding: 20px; background-color:#4CAF50; color:white; border-radius:8px;">
     <h3>Actualmente dentro</h3>
     <p>{{ inside_count }}</p>
 </div>
 
-<table border="1" style="width:100%; border-collapse: collapse; margin-top: 50px;">
+<table style="width:100%; border-collapse: collapse; margin-top: 50px;">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Cédula</th> <!-- <- Agregado -->
+            <th>Cédula</th>
             <th>Nombre</th>
             <th>Empresa</th>
             <th>Persona a visitar</th>
@@ -27,7 +27,7 @@
     {% for v in visitors %}
         <tr>
             <td>{{ v.id }}</td>
-            <td>{{ v.ci }}</td> <!-- <- Agregado -->
+            <td>{{ v.ci }}</td>
             <td>{{ v.name }}</td>
             <td>{{ v.company }}</td>
             <td>{{ v.person_to_visit }}</td>
@@ -51,5 +51,3 @@
 </table>
 
 {% endblock %}
-
-
