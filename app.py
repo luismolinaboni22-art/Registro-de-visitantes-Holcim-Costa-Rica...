@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import and_
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///visitors.db'
@@ -75,6 +76,7 @@ def index():
     return redirect('/register')
 
 @app.route('/register', methods=['GET','POST'])
+@login_required
 def register():
     if request.method == 'POST':
         ci = request.form['ci']
@@ -112,18 +114,50 @@ def history():
     visitors = Visitor.query.order_by(Visitor.check_in.desc()).all()
     return render_template('history.html', visitors=visitors)
 
-@app.route('/reports')
+@app.route('/reports', methods=['GET', 'POST'])
 @login_required
 def reports():
+    query = Visitor.query
+
+    # Obtener parámetros de búsqueda
+    fecha_inicio = request.args.get('fecha_inicio')
+    fecha_fin = request.args.get('fecha_fin')
+    nombre = request.args.get('nombre')
+    empresa = request.args.get('empresa')
+
+    # Filtrar por fechas
+    if fecha_inicio:
+        query = query.filter(Visitor.check_in >= fecha_inicio)
+    if fecha_fin:
+        query = query.filter(Visitor.check_in <= fecha_fin)
+
+    # Filtrar por nombre
+    if nombre:
+        query = query.filter(Visitor.name.ilike(f"%{nombre}%"))
+
+    # Filtrar por empresa
+    if empresa:
+        query = query.filter(Visitor.company.ilike(f"%{empresa}%"))
+
+    visitors = query.order_by(Visitor.check_in.desc()).all()
+
+    # Totales generales
     total_visitors = Visitor.query.count()
     inside_count = Visitor.query.filter_by(check_out=None).count()
     exited_count = Visitor.query.filter(Visitor.check_out.isnot(None)).count()
+
     return render_template('reports.html',
+                           visitors=visitors,
                            total_visitors=total_visitors,
                            inside_count=inside_count,
-                           exited_count=exited_count)
+                           exited_count=exited_count,
+                           fecha_inicio=fecha_inicio,
+                           fecha_fin=fecha_fin,
+                           nombre=nombre,
+                           empresa=empresa)
 
 # ===================== RUN =====================
 
 if __name__ == '__main__':
     app.run(debug=True)
+
