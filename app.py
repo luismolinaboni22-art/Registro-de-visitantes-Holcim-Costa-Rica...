@@ -22,7 +22,7 @@ class Visitor(db.Model):
     company = db.Column(db.String(150))
     reason = db.Column(db.String(300))
     check_in = db.Column(db.DateTime, default=datetime.now)
-    check_out = db.Column(db.DateTime, nullable=True)  # Nueva columna para salida
+    check_out = db.Column(db.DateTime, nullable=True)  # Salida
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -90,7 +90,8 @@ def register():
 @login_required
 def list_visitors():
     visitors = Visitor.query.order_by(Visitor.id.desc()).all()
-    return render_template('list.html', visitors=visitors)
+    inside_count = Visitor.query.filter_by(check_out=None).count()
+    return render_template('list.html', visitors=visitors, inside_count=inside_count)
 
 # ===================== RUTA DAR SALIDA =====================
 
@@ -103,11 +104,15 @@ def checkout(visitor_id):
         db.session.commit()
     return redirect('/list')
 
+# ===================== RUTA HISTÓRICO =====================
+
+@app.route('/history')
+@login_required
+def history():
+    visitors = Visitor.query.order_by(Visitor.check_in.desc()).all()
+    return render_template('history.html', visitors=visitors)
+
 # ===================== RUN =====================
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
