@@ -1,224 +1,96 @@
-/* ==============================
-   Holcim Corporate Style Sheet
-   ============================== */
-
-/* 1️⃣ Variables de colores */
 :root {
     --holcim-blue: #0097A9;
     --holcim-green: #79C000;
     --holcim-dark: #003B49;
     --holcim-light-aqua: #C7E6E8;
     --holcim-light-green: #C7E7A4;
-    --holcim-gray-dark: #1A1A1A;
     --holcim-gray-light: #F4F4F4;
     --holcim-white: #FFFFFF;
 }
 
-/* ==============================
-   2️⃣ General Styles
-   ============================== */
 body {
-    font-family: "Roboto", "Segoe UI", sans-serif;
-    background-color: var(--holcim-gray-light);
+    font-family: "Roboto", sans-serif;
+    background: var(--holcim-gray-light);
     color: var(--holcim-dark);
     margin: 0;
     padding: 0;
 }
 
-h1, h2, h3, h4, h5 {
-    color: var(--holcim-dark);
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-p, span, label {
-    color: var(--holcim-dark);
-    font-weight: 400;
-}
-
-a {
-    color: var(--holcim-blue);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-a:hover {
-    color: var(--holcim-green);
-}
-
-/* ==============================
-   3️⃣ Navbar
-   ============================== */
 .navbar {
-    background-color: var(--holcim-dark);
+    background: linear-gradient(135deg, var(--holcim-blue), var(--holcim-green));
     color: var(--holcim-white);
-    padding: 12px 20px;
+    padding: 15px 25px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 0 0 12px 12px;
 }
 
 .navbar a {
     color: var(--holcim-white);
     margin-left: 20px;
     font-weight: 500;
+    transition: 0.3s;
 }
 
-.navbar a:hover {
-    color: var(--holcim-green);
-}
+.navbar a:hover { color: var(--holcim-light-green); transform: scale(1.05); }
 
-/* ==============================
-   4️⃣ Buttons
-   ============================== */
-.button {
-    background-color: var(--holcim-green);
-    color: var(--holcim-white);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-    text-align: center;
-}
+.container { padding: 20px; max-width: 1200px; margin: auto; }
 
-.button:hover {
-    background-color: var(--holcim-blue);
-    transform: translateY(-2px);
-}
-
-/* Variantes */
-.button-secondary {
-    background-color: var(--holcim-light-aqua);
-    color: var(--holcim-dark);
-}
-
-.button-secondary:hover {
-    background-color: var(--holcim-light-green);
-}
-
-/* ==============================
-   5️⃣ Cards / Panels
-   ============================== */
 .card {
-    background-color: var(--holcim-white);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 15px 0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s;
+    background: var(--holcim-white);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
 
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
-}
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
 
 .card-header {
     font-weight: 600;
-    color: var(--holcim-dark);
-    margin-bottom: 10px;
-}
-
-/* ==============================
-   6️⃣ Forms
-   ============================== */
-input, select, textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    font-size: 1.2em;
     margin-bottom: 15px;
-    font-size: 14px;
-    transition: all 0.3s;
+    border-bottom: 2px solid var(--holcim-light-aqua);
+    padding-bottom: 5px;
 }
 
-input:focus, select:focus, textarea:focus {
-    border-color: var(--holcim-blue);
-    outline: none;
-    box-shadow: 0 0 5px var(--holcim-light-aqua);
-}
+/* Tabla */
+.table-striped { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table-striped th, .table-striped td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+.table-striped th { background: linear-gradient(135deg, var(--holcim-blue), var(--holcim-green)); color: var(--holcim-white); }
+.table-striped tr:nth-child(even) { background-color: var(--holcim-light-aqua); }
+.table-striped tr:hover { background-color: var(--holcim-light-green); transform: scale(1.01); }
 
-/* Labels */
-label {
-    font-weight: 500;
-    display: block;
-    margin-bottom: 5px;
-}
+/* Estados visitantes */
+.status-active { background-color: var(--holcim-light-green); color: var(--holcim-dark); }
+.status-expired { background-color: #F28B82; color: var(--holcim-white); }
+.status-pending { background-color: var(--holcim-light-aqua); color: var(--holcim-dark); }
 
-/* ==============================
-   7️⃣ Tables
-   ============================== */
-.table-striped {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
+/* Tarjetas dinámicas */
+.card.active { border-left: 6px solid var(--holcim-green); }
+.card.expired { border-left: 6px solid #D32F2F; }
+.card.pending { border-left: 6px solid var(--holcim-blue); }
 
-.table-striped th, .table-striped td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+/* Botones */
+.button {
+    background: linear-gradient(135deg, var(--holcim-blue), var(--holcim-green));
+    color: var(--holcim-white);
+    border: none; padding: 12px 25px;
+    border-radius: 8px; cursor: pointer;
+    font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: 0.3s;
 }
+.button:hover { background: var(--holcim-blue); transform: translateY(-3px) scale(1.03); box-shadow: 0 6px 10px rgba(0,0,0,0.2); }
 
-.table-striped tr:nth-child(even) {
-    background-color: var(--holcim-light-aqua);
-}
-
-.table-striped tr:hover {
-    background-color: var(--holcim-light-green);
-}
-
-/* ==============================
-   8️⃣ Footer
-   ============================== */
+/* Footer */
 .footer {
-    background-color: var(--holcim-dark);
+    background: var(--holcim-dark);
     color: var(--holcim-white);
     text-align: center;
-    padding: 15px 0;
-    margin-top: 30px;
-}
-
-/* ==============================
-   9️⃣ Alerts / Messages
-   ============================== */
-.alert {
-    padding: 12px 15px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    color: var(--holcim-white);
-    font-weight: 500;
-}
-
-.alert-success {
-    background-color: var(--holcim-green);
-}
-
-.alert-error {
-    background-color: #D32F2F;
-}
-
-.alert-info {
-    background-color: var(--holcim-blue);
-}
-
-/* ==============================
-   10️⃣ Responsive
-   ============================== */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .navbar a {
-        margin: 8px 0;
-    }
-
-    .card {
-        padding: 15px;
-    }
+    padding: 20px 0;
+    margin-top: 40px;
+    border-radius: 12px 12px 0 0;
 }
