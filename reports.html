@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
 <h2>Reportes de Visitantes</h2>
 
 <form method="get" style="margin-bottom:20px;">
@@ -30,7 +29,7 @@
     </div>
 </div>
 
-<table style="width:100%; border-collapse: collapse;">
+<table style="width:100%;">
     <thead>
         <tr>
             <th>ID</th>
@@ -44,7 +43,7 @@
         </tr>
     </thead>
     <tbody>
-    {% for v in visitors %}
+        {% for v in visitors %}
         <tr>
             <td>{{ v.id }}</td>
             <td>{{ v.ci }}</td>
@@ -55,8 +54,7 @@
             <td>{% if v.check_in %}{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
             <td>{% if v.check_out %}{{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
         </tr>
-    {% endfor %}
+        {% endfor %}
     </tbody>
 </table>
-
 {% endblock %}
