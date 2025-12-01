@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Histórico de Visitantes</h2>
+
+<table style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Empresa</th>
+            <th>Motivo</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for v in visitors %}
+    <tr>
+        <td>{{ v.id }}</td>
+        <td>{{ v.name }}</td>
+        <td>{{ v.company }}</td>
+        <td>{{ v.reason }}</td>
+        <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+        <td>
+            {% if v.check_out %}
+                {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
+            {% else %}
+                ---
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
