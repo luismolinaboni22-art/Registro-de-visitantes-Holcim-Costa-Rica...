@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - Holcim CR</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Holcim CR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
+<!-- Navbar -->
 <nav class="navbar">
     <div class="logo"><h2><i class="fas fa-building"></i> Holcim CR</h2></div>
     <div class="nav-links">
@@ -46,7 +47,8 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Empresa</th>
-                    <th>Fecha</th>
+                    <th>Persona a Visitar</th>
+                    <th>Motivo</th>
                     <th>Entrada</th>
                     <th>Salida</th>
                     <th>Estado</th>
@@ -56,10 +58,10 @@
             <tbody>
                 {% for visitor in visitors %}
                 {% set now = current_time %}
-                {% if visitor.check_in <= now < visitor.check_out %}
+                {% if visitor.check_in.time() <= now and (visitor.check_out is none or now < visitor.check_out.time()) %}
                     {% set status_class = "status-active" %}
                     {% set status_text = "Activo" %}
-                {% elif now >= visitor.check_out %}
+                {% elif visitor.check_out and now >= visitor.check_out.time() %}
                     {% set status_class = "status-expired" %}
                     {% set status_text = "Expirado" %}
                 {% else %}
@@ -68,13 +70,18 @@
                 {% endif %}
                 <tr class="{{ status_class }}">
                     <td>{{ visitor.name }}</td>
-                    <td>{{ visitor.company }}</td>
-                    <td>{{ visitor.date }}</td>
-                    <td>{{ visitor.check_in }}</td>
-                    <td>{{ visitor.check_out }}</td>
+                    <td>{{ visitor.company or '-' }}</td>
+                    <td>{{ visitor.person_to_visit }}</td>
+                    <td>{{ visitor.reason or '-' }}</td>
+                    <td>{{ visitor.check_in.strftime('%H:%M %d/%m/%Y') }}</td>
+                    <td>{% if visitor.check_out %}{{ visitor.check_out.strftime('%H:%M %d/%m/%Y') }}{% else %}-{% endif %}</td>
                     <td>{{ status_text }}</td>
                     <td>
-                        <a href="{{ url_for('edit_visitor', visitor_id=visitor.id) }}" class="button"><i class="fas fa-edit"></i> Editar</a>
+                        {% if not visitor.check_out %}
+                            <a href="{{ url_for('checkout', visitor_id=visitor.id) }}" class="button"><i class="fas fa-sign-out-alt"></i> Registrar Salida</a>
+                        {% else %}
+                            <span class="button" style="background:gray; cursor:default;">Salida Registrada</span>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -90,3 +97,4 @@
 
 </body>
 </html>
+
