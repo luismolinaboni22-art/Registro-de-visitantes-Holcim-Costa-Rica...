@@ -1,85 +1,155 @@
-/* Reset básico */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Roboto', sans-serif; background:#f4f4f4; color:#003B49; }
+/* ==========================
+   VARIABLES DE COLOR
+========================== */
+:root {
+    --holcim-blue: #0097A9;
+    --holcim-green: #79C000;
+    --holcim-dark: #003B49;
+    --holcim-light-aqua: #C7E6E8;
+    --holcim-light-green: #C7E7A4;
+    --holcim-gray-dark: #1A1A1A;
+}
 
-/* Navbar */
+/* ==========================
+   RESET Y BODY
+========================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: var(--holcim-light-aqua);
+    color: var(--holcim-dark);
+    line-height: 1.6;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
 .navbar {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#0097A9;
-    padding:1rem 2rem;
-    color:white;
+    background-color: var(--holcim-dark);
+    padding: 1rem 2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.navbar .logo {
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
 .navbar a {
-    color:white;
-    margin-left:1rem;
-    text-decoration:none;
-    font-weight:500;
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+    font-weight: 500;
 }
-.navbar a:hover { text-decoration:underline; }
 
-/* Contenedor principal */
-.container { padding:2rem; max-width:1200px; margin:auto; }
-
-/* Tarjetas */
-.card {
-    background:white;
-    padding:1.5rem;
-    border-radius:10px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+.navbar a:hover {
+    color: var(--holcim-green);
 }
-.card-header { font-weight:bold; font-size:1.1rem; margin-bottom:1rem; }
 
-/* Estado visitantes */
-.status-active { background:#C7E6E8; }
-.status-pending { background:#C7E7A4; }
-.status-expired { background:#1A1A1A; color:white; }
-
-/* Tabla */
-.table-striped { width:100%; border-collapse:collapse; margin-top:1rem; }
-.table-striped th, .table-striped td { padding:0.75rem; border-bottom:1px solid #ddd; text-align:left; }
-.table-striped th { background:#C7E6E8; color:#003B49; }
-.table-striped tr:hover { background:#f0f0f0; }
-
-/* Botones */
-.button {
-    display:inline-block;
-    padding:0.35rem 0.7rem;
-    background:#79C000;
-    color:white;
-    border-radius:5px;
-    text-decoration:none;
-    font-weight:500;
+/* ==========================
+   CONTENEDOR
+========================== */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-.button:hover { background:#5a9000; }
 
-/* Formularios */
-form {
-    background:white;
-    padding:2rem;
-    border-radius:10px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.15);
-    max-width:600px;
-    margin:auto;
+/* ==========================
+   BOTONES
+========================== */
+button, .btn {
+    background-color: var(--holcim-blue);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
 }
+
+button:hover, .btn:hover {
+    background-color: var(--holcim-green);
+}
+
+/* ==========================
+   TABLAS
+========================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+th {
+    background-color: var(--holcim-blue);
+    color: white;
+    padding: 0.8rem;
+    text-align: left;
+}
+
+td {
+    padding: 0.8rem;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: var(--holcim-light-green);
+}
+
+/* ==========================
+   FORMULARIOS
+========================== */
 input, select, textarea {
-    width:100%;
-    padding:0.6rem;
-    margin-bottom:1rem;
-    border:1px solid #ccc;
-    border-radius:5px;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
 }
-input:focus, select:focus, textarea:focus { border-color:#0097A9; outline:none; }
 
-/* Footer */
+label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+/* ==========================
+   FLASH MESSAGES
+========================== */
+.flash-messages {
+    margin-bottom: 1rem;
+}
+
+.flash {
+    background-color: var(--holcim-green);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+/* ==========================
+   FOOTER
+========================== */
 .footer {
-    text-align:center;
-    padding:1rem;
-    margin-top:2rem;
-    background:#003B49;
-    color:white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    color: white;
+    background-color: var(--holcim-dark);
+    border-radius: 0 0 10px 10px;
 }
-
-/* Títulos y textos */
-h1,h2,h3,h4,h5,h6 { color:#003B49; }
