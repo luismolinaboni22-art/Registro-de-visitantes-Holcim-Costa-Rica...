@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
+{% if current_user.is_authenticated and current_user.email == "jorgemolinabonilla@gmail.com" %}
+<div style="margin-bottom:20px;">
+    <a href="{{ url_for('create_user') }}" class="admin-button">Administrar Usuarios</a>
+</div>
+{% endif %}
+
 <h2>Registrar Visitante</h2>
 <form method="POST">
     <label>Cédula:</label>
-    <input type="text" name="ci" required>
-    
+    <input type="text" name="ci" class="form-control" required>
     <label>Nombre:</label>
-    <input type="text" name="name" required>
-    
+    <input type="text" name="name" class="form-control" required>
     <label>Empresa:</label>
-    <input type="text" name="company">
-    
+    <input type="text" name="company" class="form-control">
     <label>Persona a visitar:</label>
-    <input type="text" name="person_to_visit" required>
-    
+    <input type="text" name="person_to_visit" class="form-control" required>
     <label>Motivo:</label>
-    <input type="text" name="reason">
-    
-    <button type="submit">Registrar</button>
+    <input type="text" name="reason" class="form-control">
+    <button type="submit" class="btn btn-primary mt-2">Registrar</button>
 </form>
 {% endblock %}
