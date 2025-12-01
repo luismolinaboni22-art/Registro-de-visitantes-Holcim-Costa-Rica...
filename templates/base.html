@@ -5,16 +5,20 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <header>
-        <h1>Registro de Visitantes</h1>
-        <nav>
-            <a href="/register">Registrar Visitante</a>
-            <a href="/list">Lista de Visitantes</a>
-        </nav>
-    </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<header>
+    <h1>Registro de Visitantes</h1>
+    <nav>
+        <a href="/register">Registrar Visitante</a>
+        <a href="/list">Lista</a>
+        <a href="/login">Login</a>
+        <a href="/logout">Salir</a>
+    </nav>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
 </body>
 </html>
