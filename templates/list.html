@@ -5,7 +5,7 @@
 
 <!-- Recuadro de visitantes dentro -->
 <div style="
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     padding: 15px 20px;
@@ -14,21 +14,24 @@
     font-weight: bold;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 1000;
 ">
     Visitantes dentro: {{ inside_count }}
 </div>
 
 <table style="margin-top:60px; width:100%; border-collapse: collapse;">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Empresa</th>
-        <th>Motivo</th>
-        <th>Entrada</th>
-        <th>Salida</th>
-        <th>Acciones</th>
-    </tr>
-
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Empresa</th>
+            <th>Motivo</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for v in visitors %}
     <tr>
         <td>{{ v.id }}</td>
@@ -45,13 +48,17 @@
         </td>
         <td>
             {% if not v.check_out %}
-                <a href="{{ url_for('checkout', visitor_id=v.id) }}">
-                    <button>Dar salida</button>
-                </a>
+                <form action="{{ url_for('checkout', visitor_id=v.id) }}" method="get" style="margin:0;">
+                    <button type="submit">Dar salida</button>
+                </form>
+            {% else %}
+                Salió
             {% endif %}
         </td>
     </tr>
     {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}
+
