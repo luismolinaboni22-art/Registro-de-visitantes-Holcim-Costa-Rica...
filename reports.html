@@ -1,60 +1,57 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Reportes de Visitantes</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Visitantes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Reporte de Visitantes</h1>
 
-<form method="get" style="margin-bottom:20px;">
-    <label>Fecha inicio:</label>
-    <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}">
-    <label>Fecha fin:</label>
-    <input type="date" name="fecha_fin" value="{{ fecha_fin }}">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" placeholder="Nombre" value="{{ nombre }}">
-    <label>Empresa:</label>
-    <input type="text" name="empresa" placeholder="Empresa" value="{{ empresa }}">
-    <button type="submit">Buscar</button>
-</form>
+    <!-- Tabla de visitantes -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Empresa</th>
+                <th>Check-in</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in visitors %}
+            <tr>
+                <td>{{ v.name }}</td>
+                <td>{{ v.company }}</td>
+                <td>{{ v.check_in }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<div style="display: flex; gap: 20px; margin-bottom: 20px;">
-    <div style="padding: 20px; background-color:#2196F3; color:white; border-radius:8px; flex:1; text-align:center;">
-        <h3>Total registrados</h3>
-        <p>{{ total_visitors }}</p>
-    </div>
-    <div style="padding: 20px; background-color:#4CAF50; color:white; border-radius:8px; flex:1; text-align:center;">
-        <h3>Actualmente dentro</h3>
-        <p>{{ inside_count }}</p>
-    </div>
-    <div style="padding: 20px; background-color:#f44336; color:white; border-radius:8px; flex:1; text-align:center;">
-        <h3>Ya salieron</h3>
-        <p>{{ exited_count }}</p>
-    </div>
+    <!-- Gráfico de ejemplo -->
+    <canvas id="visitorChart" width="400" height="200"></canvas>
 </div>
 
-<table style="width:100%;">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Cédula</th>
-            <th>Nombre</th>
-            <th>Empresa</th>
-            <th>Persona a visitar</th>
-            <th>Motivo</th>
-            <th>Entrada</th>
-            <th>Salida</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for v in visitors %}
-        <tr>
-            <td>{{ v.id }}</td>
-            <td>{{ v.ci }}</td>
-            <td>{{ v.name }}</td>
-            <td>{{ v.company or '---' }}</td>
-            <td>{{ v.person_to_visit }}</td>
-            <td>{{ v.reason or '---' }}</td>
-            <td>{% if v.check_in %}{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
-            <td>{% if v.check_out %}{{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+<script>
+    const ctx = document.getElementById('visitorChart').getContext('2d');
+    const holcimBlue = getComputedStyle(document.documentElement)
+                        .getPropertyValue('--holcim-blue').trim();
+    const holcimGreen = getComputedStyle(document.documentElement)
+                        .getPropertyValue('--holcim-green').trim();
+
+    const visitorChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for v in visitors %}'{{ v.name }}',{% endfor %}],
+            datasets: [{
+                label: 'Visitantes',
+                data: [{% for v in visitors %}1,{% endfor %}],
+                backgroundColor: [holcimBlue, holcimGreen, holcimBlue]
+            }]
+        }
+    });
+</script>
+</body>
+</html>
