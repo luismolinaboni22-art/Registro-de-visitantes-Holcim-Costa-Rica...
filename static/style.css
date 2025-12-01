@@ -1,96 +1,85 @@
-:root {
-    --holcim-blue: #0097A9;
-    --holcim-green: #79C000;
-    --holcim-dark: #003B49;
-    --holcim-light-aqua: #C7E6E8;
-    --holcim-light-green: #C7E7A4;
-    --holcim-gray-light: #F4F4F4;
-    --holcim-white: #FFFFFF;
-}
+/* Reset básico */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Roboto', sans-serif; background:#f4f4f4; color:#003B49; }
 
-body {
-    font-family: "Roboto", sans-serif;
-    background: var(--holcim-gray-light);
-    color: var(--holcim-dark);
-    margin: 0;
-    padding: 0;
-}
-
+/* Navbar */
 .navbar {
-    background: linear-gradient(135deg, var(--holcim-blue), var(--holcim-green));
-    color: var(--holcim-white);
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    border-radius: 0 0 12px 12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#0097A9;
+    padding:1rem 2rem;
+    color:white;
 }
-
 .navbar a {
-    color: var(--holcim-white);
-    margin-left: 20px;
-    font-weight: 500;
-    transition: 0.3s;
+    color:white;
+    margin-left:1rem;
+    text-decoration:none;
+    font-weight:500;
 }
+.navbar a:hover { text-decoration:underline; }
 
-.navbar a:hover { color: var(--holcim-light-green); transform: scale(1.05); }
+/* Contenedor principal */
+.container { padding:2rem; max-width:1200px; margin:auto; }
 
-.container { padding: 20px; max-width: 1200px; margin: auto; }
-
+/* Tarjetas */
 .card {
-    background: var(--holcim-white);
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    transition: 0.3s;
+    background:white;
+    padding:1.5rem;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
+.card-header { font-weight:bold; font-size:1.1rem; margin-bottom:1rem; }
 
-.card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
-
-.card-header {
-    font-weight: 600;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    border-bottom: 2px solid var(--holcim-light-aqua);
-    padding-bottom: 5px;
-}
+/* Estado visitantes */
+.status-active { background:#C7E6E8; }
+.status-pending { background:#C7E7A4; }
+.status-expired { background:#1A1A1A; color:white; }
 
 /* Tabla */
-.table-striped { width: 100%; border-collapse: collapse; font-size: 14px; }
-.table-striped th, .table-striped td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
-.table-striped th { background: linear-gradient(135deg, var(--holcim-blue), var(--holcim-green)); color: var(--holcim-white); }
-.table-striped tr:nth-child(even) { background-color: var(--holcim-light-aqua); }
-.table-striped tr:hover { background-color: var(--holcim-light-green); transform: scale(1.01); }
-
-/* Estados visitantes */
-.status-active { background-color: var(--holcim-light-green); color: var(--holcim-dark); }
-.status-expired { background-color: #F28B82; color: var(--holcim-white); }
-.status-pending { background-color: var(--holcim-light-aqua); color: var(--holcim-dark); }
-
-/* Tarjetas dinámicas */
-.card.active { border-left: 6px solid var(--holcim-green); }
-.card.expired { border-left: 6px solid #D32F2F; }
-.card.pending { border-left: 6px solid var(--holcim-blue); }
+.table-striped { width:100%; border-collapse:collapse; margin-top:1rem; }
+.table-striped th, .table-striped td { padding:0.75rem; border-bottom:1px solid #ddd; text-align:left; }
+.table-striped th { background:#C7E6E8; color:#003B49; }
+.table-striped tr:hover { background:#f0f0f0; }
 
 /* Botones */
 .button {
-    background: linear-gradient(135deg, var(--holcim-blue), var(--holcim-green));
-    color: var(--holcim-white);
-    border: none; padding: 12px 25px;
-    border-radius: 8px; cursor: pointer;
-    font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-    transition: 0.3s;
+    display:inline-block;
+    padding:0.35rem 0.7rem;
+    background:#79C000;
+    color:white;
+    border-radius:5px;
+    text-decoration:none;
+    font-weight:500;
 }
-.button:hover { background: var(--holcim-blue); transform: translateY(-3px) scale(1.03); box-shadow: 0 6px 10px rgba(0,0,0,0.2); }
+.button:hover { background:#5a9000; }
+
+/* Formularios */
+form {
+    background:white;
+    padding:2rem;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+    max-width:600px;
+    margin:auto;
+}
+input, select, textarea {
+    width:100%;
+    padding:0.6rem;
+    margin-bottom:1rem;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+input:focus, select:focus, textarea:focus { border-color:#0097A9; outline:none; }
 
 /* Footer */
 .footer {
-    background: var(--holcim-dark);
-    color: var(--holcim-white);
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    border-radius: 12px 12px 0 0;
+    text-align:center;
+    padding:1rem;
+    margin-top:2rem;
+    background:#003B49;
+    color:white;
 }
+
+/* Títulos y textos */
+h1,h2,h3,h4,h5,h6 { color:#003B49; }
