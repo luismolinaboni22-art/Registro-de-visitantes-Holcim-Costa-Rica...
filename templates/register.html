@@ -1,17 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Nuevo Visitante</h2>
+<h2>Registrar Visitante</h2>
 
 <form method="POST">
-    <label>Nombre completo</label>
-    <input type="text" name="name" required>
+    <label for="ci">Cédula de identidad:</label>
+    <input type="text" id="ci" name="ci" required placeholder="Ingrese cédula">
 
-    <label>Empresa</label>
-    <input type="text" name="company">
+    <label for="name">Nombre:</label>
+    <input type="text" id="name" name="name" required placeholder="Nombre completo">
 
-    <label>Motivo de visita</label>
-    <input type="text" name="reason">
+    <label for="company">Empresa:</label>
+    <input type="text" id="company" name="company" placeholder="Empresa">
+
+    <label for="person_to_visit">Persona a visitar:</label>
+    <input type="text" id="person_to_visit" name="person_to_visit" required placeholder="Nombre de la persona a visitar">
+
+    <label for="reason">Motivo:</label>
+    <input type="text" id="reason" name="reason" placeholder="Motivo de la visita">
 
     <button type="submit">Registrar</button>
 </form>
