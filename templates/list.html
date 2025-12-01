@@ -4,61 +4,52 @@
 <h2>Visitantes Registrados</h2>
 
 <!-- Recuadro de visitantes dentro -->
-<div style="
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 20px;
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    z-index: 1000;
-">
-    Visitantes dentro: {{ inside_count }}
+<div style="float:right; padding: 20px; background-color:#4CAF50; color:white; border-radius:8px;">
+    <h3>Actualmente dentro</h3>
+    <p>{{ inside_count }}</p>
 </div>
 
-<table style="margin-top:60px; width:100%; border-collapse: collapse;">
+<table border="1" style="width:100%; border-collapse: collapse; margin-top: 50px;">
     <thead>
         <tr>
             <th>ID</th>
+            <th>Cédula</th> <!-- <- Agregado -->
             <th>Nombre</th>
             <th>Empresa</th>
+            <th>Persona a visitar</th>
             <th>Motivo</th>
             <th>Entrada</th>
             <th>Salida</th>
-            <th>Acciones</th>
+            <th>Dar salida</th>
         </tr>
     </thead>
     <tbody>
     {% for v in visitors %}
-    <tr>
-        <td>{{ v.id }}</td>
-        <td>{{ v.name }}</td>
-        <td>{{ v.company }}</td>
-        <td>{{ v.reason }}</td>
-        <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
-        <td>
-            {% if v.check_out %}
-                {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
-            {% else %}
-                ---
-            {% endif %}
-        </td>
-        <td>
-            {% if not v.check_out %}
-                <form action="{{ url_for('checkout', visitor_id=v.id) }}" method="get" style="margin:0;">
-                    <button type="submit">Dar salida</button>
-                </form>
-            {% else %}
-                Salió
-            {% endif %}
-        </td>
-    </tr>
+        <tr>
+            <td>{{ v.id }}</td>
+            <td>{{ v.ci }}</td> <!-- <- Agregado -->
+            <td>{{ v.name }}</td>
+            <td>{{ v.company }}</td>
+            <td>{{ v.person_to_visit }}</td>
+            <td>{{ v.reason }}</td>
+            <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+            <td>
+                {% if v.check_out %}
+                    {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
+                {% else %}
+                    ---
+                {% endif %}
+            </td>
+            <td>
+                {% if not v.check_out %}
+                    <a href="/checkout/{{ v.id }}">Dar salida</a>
+                {% endif %}
+            </td>
+        </tr>
     {% endfor %}
     </tbody>
 </table>
 
 {% endblock %}
+
 
