@@ -3,7 +3,6 @@
 
 <h2>Reportes de Visitantes</h2>
 
-<!-- Formulario de búsqueda -->
 <form method="get" style="margin-bottom:20px;">
     <label>Fecha inicio:</label>
     <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}">
@@ -16,25 +15,21 @@
     <button type="submit">Buscar</button>
 </form>
 
-<!-- Totales generales -->
 <div style="display: flex; gap: 20px; margin-bottom: 20px;">
     <div style="padding: 20px; background-color:#2196F3; color:white; border-radius:8px; flex:1; text-align:center;">
         <h3>Total registrados</h3>
         <p>{{ total_visitors }}</p>
     </div>
-
     <div style="padding: 20px; background-color:#4CAF50; color:white; border-radius:8px; flex:1; text-align:center;">
         <h3>Actualmente dentro</h3>
         <p>{{ inside_count }}</p>
     </div>
-
     <div style="padding: 20px; background-color:#f44336; color:white; border-radius:8px; flex:1; text-align:center;">
         <h3>Ya salieron</h3>
         <p>{{ exited_count }}</p>
     </div>
 </div>
 
-<!-- Tabla de resultados -->
 <table style="width:100%; border-collapse: collapse;">
     <thead>
         <tr>
@@ -54,17 +49,11 @@
             <td>{{ v.id }}</td>
             <td>{{ v.ci }}</td>
             <td>{{ v.name }}</td>
-            <td>{{ v.company }}</td>
+            <td>{{ v.company or '---' }}</td>
             <td>{{ v.person_to_visit }}</td>
-            <td>{{ v.reason }}</td>
-            <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
-            <td>
-                {% if v.check_out %}
-                    {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
-                {% else %}
-                    ---
-                {% endif %}
-            </td>
+            <td>{{ v.reason or '---' }}</td>
+            <td>{% if v.check_in %}{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
+            <td>{% if v.check_out %}{{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
         </tr>
     {% endfor %}
     </tbody>
