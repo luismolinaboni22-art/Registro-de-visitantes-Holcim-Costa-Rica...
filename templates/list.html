@@ -3,7 +3,6 @@
 
 <h2>Visitantes Registrados</h2>
 
-<!-- Recuadro visitantes dentro -->
 <div style="float:right; padding: 20px; background-color:#4CAF50; color:white; border-radius:8px;">
     <h3>Actualmente dentro</h3>
     <p>{{ inside_count }}</p>
@@ -32,31 +31,12 @@
             <td>{{ v.company or '---' }}</td>
             <td>{{ v.person_to_visit }}</td>
             <td>{{ v.reason or '---' }}</td>
-            <td>
-                {% if v.check_in %}
-                    {{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}
-                {% else %}
-                    ---
-                {% endif %}
-            </td>
-            <td>
-                {% if v.check_out %}
-                    {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
-                {% else %}
-                    ---
-                {% endif %}
-            </td>
-            <td>
-                {% if not v.check_out %}
-                    <a href="/checkout/{{ v.id }}">Dar salida</a>
-                {% else %}
-                    ---
-                {% endif %}
-            </td>
+            <td>{% if v.check_in %}{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
+            <td>{% if v.check_out %}{{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}{% else %}---{% endif %}</td>
+            <td>{% if not v.check_out %}<a href="/checkout/{{ v.id }}">Dar salida</a>{% else %}---{% endif %}</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
 {% endblock %}
-
