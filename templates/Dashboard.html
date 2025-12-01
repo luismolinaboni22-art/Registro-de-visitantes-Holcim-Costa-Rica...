@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Holcim CR</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo"><h2><i class="fas fa-building"></i> Holcim CR</h2></div>
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}"><i class="fas fa-home"></i> Inicio</a>
+        <a href="{{ url_for('register_visitor') }}"><i class="fas fa-user-plus"></i> Registrar</a>
+        <a href="{{ url_for('reports') }}"><i class="fas fa-chart-line"></i> Reportes</a>
+        <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Salir</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Tarjetas dinámicas -->
+    <div style="display:flex; flex-wrap:wrap; gap:25px; margin-bottom:30px;">
+        <div class="card {% if visitors_today > 0 %}active{% else %}pending{% endif %}" style="flex:1;">
+            <div class="card-header"><i class="fas fa-users"></i> Visitantes Hoy</div>
+            <div class="card-body">{{ visitors_today }}</div>
+        </div>
+        <div class="card {% if visitors_week > 0 %}active{% else %}pending{% endif %}" style="flex:1;">
+            <div class="card-header"><i class="fas fa-calendar-week"></i> Esta Semana</div>
+            <div class="card-body">{{ visitors_week }}</div>
+        </div>
+        <div class="card {% if visitors_total > 0 %}active{% else %}pending{% endif %}" style="flex:1;">
+            <div class="card-header"><i class="fas fa-id-card"></i> Total Registrados</div>
+            <div class="card-body">{{ visitors_total }}</div>
+        </div>
+    </div>
+
+    <!-- Tabla de visitantes -->
+    <div class="card">
+        <div class="card-header"><i class="fas fa-list"></i> Visitantes Recientes</div>
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Empresa</th>
+                    <th>Fecha</th>
+                    <th>Entrada</th>
+                    <th>Salida</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for visitor in visitors %}
+                {% set now = current_time %}
+                {% if visitor.check_in <= now < visitor.check_out %}
+                    {% set status_class = "status-active" %}
+                    {% set status_text = "Activo" %}
+                {% elif now >= visitor.check_out %}
+                    {% set status_class = "status-expired" %}
+                    {% set status_text = "Expirado" %}
+                {% else %}
+                    {% set status_class = "status-pending" %}
+                    {% set status_text = "Pendiente" %}
+                {% endif %}
+                <tr class="{{ status_class }}">
+                    <td>{{ visitor.name }}</td>
+                    <td>{{ visitor.company }}</td>
+                    <td>{{ visitor.date }}</td>
+                    <td>{{ visitor.check_in }}</td>
+                    <td>{{ visitor.check_out }}</td>
+                    <td>{{ status_text }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_visitor', visitor_id=visitor.id) }}" class="button"><i class="fas fa-edit"></i> Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<footer class="footer">
+    &copy; 2025 Holcim Costa Rica. Todos los derechos reservados.
+</footer>
+
+</body>
+</html>
