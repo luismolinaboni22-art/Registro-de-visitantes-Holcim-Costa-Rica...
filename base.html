@@ -1,8 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Control de Visitantes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #333; }
+        table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        input, button { padding: 5px; margin: 5px; }
+    </style>
+</head>
+<body>
+
 <nav>
-    <a href="/register">Registrar Visitante</a>
-    <a href="/list">Lista</a>
-    <a href="/history">Histórico</a>
-    <a href="/reports">Reportes</a>
-    <a href="/login">Login</a>
-    <a href="/logout">Salir</a>
+    {% if current_user.is_authenticated %}
+        <a href="/register">Registrar Visitante</a>
+        <a href="/list">Lista</a>
+        <a href="/history">Histórico</a>
+        <a href="/reports">Reportes</a>
+        <a href="/logout">Salir</a>
+    {% else %}
+        <a href="/login">Login</a>
+    {% endif %}
 </nav>
+
+<hr>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+
+</body>
+</html>
