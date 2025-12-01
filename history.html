@@ -3,12 +3,14 @@
 
 <h2>Histórico de Visitantes</h2>
 
-<table style="width:100%; border-collapse: collapse;">
+<table style="width:100%; border-collapse: collapse; margin-top: 20px;">
     <thead>
         <tr>
             <th>ID</th>
+            <th>Cédula</th>
             <th>Nombre</th>
             <th>Empresa</th>
+            <th>Persona a visitar</th>
             <th>Motivo</th>
             <th>Entrada</th>
             <th>Salida</th>
@@ -16,20 +18,22 @@
     </thead>
     <tbody>
     {% for v in visitors %}
-    <tr>
-        <td>{{ v.id }}</td>
-        <td>{{ v.name }}</td>
-        <td>{{ v.company }}</td>
-        <td>{{ v.reason }}</td>
-        <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
-        <td>
-            {% if v.check_out %}
-                {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
-            {% else %}
-                ---
-            {% endif %}
-        </td>
-    </tr>
+        <tr>
+            <td>{{ v.id }}</td>
+            <td>{{ v.ci }}</td>
+            <td>{{ v.name }}</td>
+            <td>{{ v.company }}</td>
+            <td>{{ v.person_to_visit }}</td>
+            <td>{{ v.reason }}</td>
+            <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+            <td>
+                {% if v.check_out %}
+                    {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
+                {% else %}
+                    ---
+                {% endif %}
+            </td>
+        </tr>
     {% endfor %}
     </tbody>
 </table>
