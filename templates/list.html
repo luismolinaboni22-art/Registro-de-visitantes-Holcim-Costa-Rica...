@@ -1,4 +1,4 @@
-{%{% extends "base.html" %}
+{% extends "base.html" %}
 {% block content %}
 
 <h2>Visitantes Registrados</h2>
@@ -29,10 +29,16 @@
             <td>{{ v.id }}</td>
             <td>{{ v.ci }}</td>
             <td>{{ v.name }}</td>
-            <td>{{ v.company }}</td>
+            <td>{{ v.company or '---' }}</td>
             <td>{{ v.person_to_visit }}</td>
-            <td>{{ v.reason }}</td>
-            <td>{{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+            <td>{{ v.reason or '---' }}</td>
+            <td>
+                {% if v.check_in %}
+                    {{ v.check_in.strftime("%Y-%m-%d %H:%M:%S") }}
+                {% else %}
+                    ---
+                {% endif %}
+            </td>
             <td>
                 {% if v.check_out %}
                     {{ v.check_out.strftime("%Y-%m-%d %H:%M:%S") }}
@@ -43,6 +49,8 @@
             <td>
                 {% if not v.check_out %}
                     <a href="/checkout/{{ v.id }}">Dar salida</a>
+                {% else %}
+                    ---
                 {% endif %}
             </td>
         </tr>
@@ -51,3 +59,4 @@
 </table>
 
 {% endblock %}
+
